@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+    <script type="module" src="/main.js" defer></script>
+  </head>
+  <body>
+    <div id="layout">
+      <div id="table_wrapper">
+        <div class="header">
+          <div class="head fn">
+            <input type="radio" name="sort" id="firstName" />
+            <label>first name</label>
+            <div class="direction">down</div>
+          </div>
+          <div class="head mn">
+            <input type="radio" name="sort" id="midName" />
+            <label>middle name</label>
+            <div class="direction">down</div>
+          </div>
+          <div class="head ln">
+            <input type="radio" name="sort" id="lastName" />
+            <label>last name</label>
+            <div class="direction">down</div>
+          </div>
+          <div class="head g">
+            <input type="radio" name="sort" id="gender" />
+            <label>gender</label>
+            <div class="direction">down</div>
+          </div>
+          <div class="head h">
+            <input type="radio" name="sort" id="house" />
+            <label>house</label>
+            <div class="direction">down</div>
+          </div>
+          <div class="head b">
+            <input type="radio" name="sort" id="blood" />
+            <label>blood</label>
+            <div class="direction">down</div>
+          </div>
+          <div class="head p">
+            <input type="radio" name="sort" id="prefect" />
+            <label>prefect</label>
+            <div class="direction">down</div>
+          </div>
+          <div class="head e">
+            <input type="radio" name="sort" id="expel" />
+            <label>expel</label>
+            <div class="direction">down</div>
+          </div>
+          <div class="head w">
+            <input type="radio" name="sort" id="watchlist" />
+            <label>watch list</label>
+            <div class="direction">down</div>
+          </div>
+          <div class="tlo"></div>
+        </div>
+        <div class="spacer"></div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<template id="studentRowTemp">
+  <div class="row">
+    <h2 class="fn">miiko</h2>
+    <h2 class="mn">piotr</h2>
+    <h2 class="ln">kozak</h2>
+    <h2 class="g">male</h2>
+    <h2 class="h">sortedam</h2>
+    <h2 class="b">polska</h2>
+    <h2 class="p">me</h2>
+    <h2 class="e">no</h2>
+    <h2 class="w">no</h2>
+  </div>
+</template>
