@@ -120,20 +120,17 @@ const viewer = (toDisplay) => {
     clone.querySelector(".b").textContent = stud.blood;
     clone.querySelector(".p").textContent = stud.prefect;
     clone.querySelector(".e").textContent = stud.expel;
-    clone.querySelector(".w").textContent = stud.watchlist;
+    clone.querySelector(".w").textContent = stud.watchList;
     document.querySelector("#table_wrapper").appendChild(clone);
   });
 };
 
 const setSticky = () => {
   let widthsPX = [];
-  // let headerWidth = 0;
-  console.log(document.querySelector("#table_wrapper").getBoundingClientRect());
   [...document.querySelectorAll(".head")].forEach((el, index) => {
     widthsPX.push(`${el.getBoundingClientRect().width}px`);
     el.style.width = widthsPX[index];
   });
   document.querySelector("#table_wrapper").style.gridTemplateColumns = widthsPX.join(" ");
   document.querySelector(".header").classList.add("sticked");
-  console.log(document.querySelector("#table_wrapper").getBoundingClientRect());
 };

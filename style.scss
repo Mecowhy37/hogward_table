@@ -17,7 +17,7 @@ body {
 #table_wrapper {
   max-width: 80vw;
   position: relative;
-  max-height: 60vh;
+  max-height: 80vh;
   // background-color: white;
   background-color: black;
   display: grid;
@@ -114,6 +114,8 @@ body {
       height: 100%;
       border-bottom: 1px solid #252525;
       white-space: nowrap;
+      font-family: lato;
+      font-weight: lighter;
     }
   }
   .fn {
