@@ -80,10 +80,6 @@ document.querySelectorAll(".head").forEach((el) => {
   };
 });
 
-const cleanUp = () => {
-  [...document.querySelectorAll("#table_wrapper .row")].forEach((el) => el.remove());
-};
-
 const searchBar = document.querySelector("#search");
 const grouping = document.querySelector("#grouping");
 searchBar.oninput = grouping.onchange = () => {
@@ -157,7 +153,7 @@ const controller = () => {
 };
 
 const viewer = (toDisplay) => {
-  cleanUp();
+  [...document.querySelectorAll("#table_wrapper .row")].forEach((el) => el.remove());
   toDisplay.forEach((stud) => {
     let clone = document.getElementById("studentRowTemp").content.cloneNode(true);
     clone.querySelector(".fn").textContent = stud.firstName;
