@@ -3,6 +3,7 @@ import "./style.scss";
 ("use strict");
 window.addEventListener("load", setUp);
 let originalList = [];
+let viewingList = [];
 async function setUp() {
   const res1 = await fetch("https://petlatkea.dk/2021/hogwarts/students.json");
   const res2 = await fetch("https://petlatkea.dk/2021/hogwarts/families.json");
@@ -20,6 +21,7 @@ function mainList(data1clean, data2) {
     Object.assign(obj, { prefect: false, watchList: false, expel: false, blood: blood, face: picture });
     originalList.push(obj);
   });
+  viewingList = [...originalList];
 }
 function cleanNames(data1) {
   data1.forEach((jsonObj) => {
@@ -63,7 +65,7 @@ document.querySelectorAll(".head").forEach((el) => {
             input.direction = "up";
           } else {
             input.direction = "down";
-            input.checked = false;
+            // input.checked = false;
           }
         } else {
           input.checked = true;
@@ -74,25 +76,18 @@ document.querySelectorAll(".head").forEach((el) => {
       }
       input.parentElement.querySelector(".direction").textContent = input.direction;
     });
-    cleanUp();
-    let selected = document.querySelector('input[name="sort"]:checked');
-    if (selected) {
-      controller([selected.id, selected.direction]);
-    } else {
-      controller();
-    }
+    controller();
   };
 });
 
 const cleanUp = () => {
-  console.log("its cleaning");
   [...document.querySelectorAll("#table_wrapper .row")].forEach((el) => el.remove());
 };
 
-const controller = (params) => {
-  let viewingList = [...originalList];
-  if (params) {
-    const [param, direction] = params;
+const controller = () => {
+  let selected = document.querySelector('input[name="sort"]:checked');
+  if (selected) {
+    const [param, direction] = [selected.id, selected.direction];
     console.log(param, direction);
     viewingList.sort((a, b) => {
       if (a[param] < b[param]) {
@@ -106,10 +101,12 @@ const controller = (params) => {
   } else {
     console.log("none selected");
   }
+  // console.log(viewingList);
   viewer(viewingList);
 };
 
 const viewer = (toDisplay) => {
+  cleanUp();
   toDisplay.forEach((stud) => {
     let clone = document.getElementById("studentRowTemp").content.cloneNode(true);
     clone.querySelector(".fn").textContent = stud.firstName;
@@ -119,10 +116,26 @@ const viewer = (toDisplay) => {
     clone.querySelector(".h").textContent = stud.house;
     clone.querySelector(".b").textContent = stud.blood;
     clone.querySelector(".p").textContent = stud.prefect;
+    if (stud.prefect) {
+      clone.querySelector(".p").classList.add("true");
+    } else {
+      clone.querySelector(".p").classList.remove("true");
+    }
     clone.querySelector(".e").textContent = stud.expel;
+    if (stud.expel) {
+      clone.querySelector(".e").classList.add("true");
+    } else {
+      clone.querySelector(".e").classList.remove("true");
+    }
     clone.querySelector(".w").textContent = stud.watchList;
+    if (stud.watchList) {
+      clone.querySelector(".w").classList.add("true");
+    } else {
+      clone.querySelector(".w").classList.remove("true");
+    }
     document.querySelector("#table_wrapper").appendChild(clone);
   });
+  actions();
 };
 
 const setSticky = () => {
@@ -134,3 +147,25 @@ const setSticky = () => {
   document.querySelector("#table_wrapper").style.gridTemplateColumns = widthsPX.join(" ");
   document.querySelector(".header").classList.add("sticked");
 };
+
+function actions() {
+  [...document.querySelectorAll(".action")].forEach((el) => {
+    el.onclick = (e) => {
+      changeVList(e);
+      controller();
+    };
+  });
+}
+
+function changeVList(e) {
+  let targetObj = viewingList.find((el) => el.firstName === e.target.parentElement.querySelector(".fn").textContent);
+  if (e.target.classList.contains("p")) {
+    targetObj.prefect = !targetObj.prefect;
+  }
+  if (e.target.classList.contains("e")) {
+    targetObj.expel = !targetObj.expel;
+  }
+  if (e.target.classList.contains("w")) {
+    targetObj.watchList = !targetObj.watchList;
+  }
+}

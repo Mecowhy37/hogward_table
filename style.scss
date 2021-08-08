@@ -24,6 +24,9 @@ body {
   grid-template-columns: repeat(9, min-content);
   grid-auto-rows: 50px;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   .header {
     display: contents;
     &.sticked {
@@ -75,6 +78,7 @@ body {
         font-weight: normal;
         font-style: normal;
         visibility: hidden;
+        pointer-events: none;
       }
     }
     .tlo {
@@ -116,6 +120,17 @@ body {
       white-space: nowrap;
       font-family: lato;
       font-weight: lighter;
+      &.e,
+      &.p,
+      &.w {
+        color: rgb(190, 179, 248);
+        cursor: pointer;
+      }
+      &.true,
+      &.true,
+      &.true {
+        color: rgb(179, 248, 216);
+      }
     }
   }
   .fn {
