@@ -3,7 +3,7 @@ import "./style.scss";
 ("use strict");
 window.addEventListener("load", setUp);
 let originalList = [];
-let viewingList = [];
+let editableList = [];
 async function setUp() {
   const res1 = await fetch("https://petlatkea.dk/2021/hogwarts/students.json");
   const res2 = await fetch("https://petlatkea.dk/2021/hogwarts/families.json");
@@ -21,7 +21,7 @@ function mainList(data1clean, data2) {
     Object.assign(obj, { prefect: false, watchList: false, expel: false, blood: blood, face: picture });
     originalList.push(obj);
   });
-  viewingList = [...originalList];
+  editableList = [...originalList];
 }
 function cleanNames(data1) {
   data1.forEach((jsonObj) => {
@@ -84,12 +84,19 @@ const cleanUp = () => {
   [...document.querySelectorAll("#table_wrapper .row")].forEach((el) => el.remove());
 };
 
+const searchBar = document.querySelector("#search");
+const grouping = document.querySelector("#grouping");
+searchBar.oninput = grouping.onchange = () => {
+  controller();
+};
+
 const controller = () => {
+  console.log(editableList);
   let selected = document.querySelector('input[name="sort"]:checked');
   if (selected) {
     const [param, direction] = [selected.id, selected.direction];
     console.log(param, direction);
-    viewingList.sort((a, b) => {
+    editableList.sort((a, b) => {
       if (a[param] < b[param]) {
         return direction === "down" ? -1 : 1;
       }
@@ -101,8 +108,52 @@ const controller = () => {
   } else {
     console.log("none selected");
   }
-  // console.log(viewingList);
-  viewer(viewingList);
+  let trimmedList = [];
+
+  console.log(grouping.value);
+  switch (grouping.value) {
+    case "all":
+      trimmedList = [...editableList];
+      break;
+    case "all students":
+      trimmedList = editableList.filter((x) => (x.expel ? null : x));
+      break;
+    case "expeled":
+      trimmedList = editableList.filter((x) => (x.expel ? x : null));
+      break;
+    case "watchlist":
+      trimmedList = editableList.filter((x) => (x.watchList ? x : null));
+      break;
+    case "prefects":
+      trimmedList = editableList.filter((x) => (x.prefect ? x : null));
+      break;
+    case "Gryffindor":
+      trimmedList = editableList.filter((x) => (x.house === "Gryffindor" ? x : null));
+      break;
+    case "Hufflepuff":
+      trimmedList = editableList.filter((x) => (x.house === "Hufflepuff" ? x : null));
+      break;
+    case "Ravenclaw":
+      trimmedList = editableList.filter((x) => (x.house === "Ravenclaw" ? x : null));
+      break;
+    case "Slytherin":
+      trimmedList = editableList.filter((x) => (x.house === "Slytherin" ? x : null));
+      break;
+    default:
+      break;
+  }
+  let searchedList = [...trimmedList];
+  if (searchBar.value) {
+    let searching = `${searchBar.value.toLowerCase()}`;
+    searchedList = trimmedList.filter((x) => {
+      if (x.firstName.toLowerCase().includes(searching) || x.lastName.toLowerCase().includes(searching) || x.midName.toLowerCase().includes(searching)) {
+        return x;
+      } else {
+        return;
+      }
+    });
+  }
+  viewer(searchedList);
 };
 
 const viewer = (toDisplay) => {
@@ -158,7 +209,7 @@ function actions() {
 }
 
 function changeVList(e) {
-  let targetObj = viewingList.find((el) => el.firstName === e.target.parentElement.querySelector(".fn").textContent);
+  let targetObj = editableList.find((el) => el.firstName === e.target.parentElement.querySelector(".fn").textContent);
   if (e.target.classList.contains("p")) {
     targetObj.prefect = !targetObj.prefect;
   }

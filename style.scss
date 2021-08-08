@@ -13,11 +13,28 @@ body {
   height: 100%;
   place-content: center;
 }
+#filters {
+  justify-self: center;
+  #search {
+    width: 20vw;
+    margin-bottom: 20px;
+    font-size: 140%;
+    padding: 0.1em 0.5em;
+    font-family: lato;
+    font-weight: lighter;
+  }
+  #grouping {
+    padding: 0.1em 0.5em;
+    font-family: lato;
+    font-weight: lighter;
+    font-size: 140%;
+  }
+}
 
 #table_wrapper {
   max-width: 80vw;
   position: relative;
-  max-height: 80vh;
+  max-height: 60vh;
   // background-color: white;
   background-color: black;
   display: grid;
